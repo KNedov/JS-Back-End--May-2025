@@ -11,12 +11,12 @@ movieController.post('/create',async (req, res) => {
 
   res.redirect('/');
 });
-movieController.get('/:movieId/details', (req, res) => {
+movieController.get('/:movieId/details', async (req, res) => {
   //get movieId from parameters
   const movieId = req.params.movieId;
   //get movie from movieService
   //and pass it to the view
-const movie=movieService.getOne(movieId)
+const movie=await movieService.getOne(movieId)
   res.render('details', { movie });
 });
 movieController.get('/search', async (req, res) => {

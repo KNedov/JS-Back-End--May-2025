@@ -4,11 +4,11 @@ import { v4 as uuid} from "uuid";
 import Movie from "../models/Movie.js";
 
 
-export default {    
-    async getAll(filter={}) {
-        let result=await Movie.find({}).lean();
-        if(filter.search) {
-            result=result.filter(m=>m.title.toLowerCase().includes(filter.search.toLowerCase()));
+export default {
+    async getAll(filter = {}) {
+        let result = await Movie.find({}).lean();
+        if (filter.search) {
+            result = result.filter(m => m.title.toLowerCase().includes(filter.search.toLowerCase()));
         }
         if(filter.genre) {
             result=result.filter(m=>m.genre.toLowerCase()===filter.genre.toLowerCase());
@@ -30,8 +30,8 @@ export default {
         
         return movie.save();
     },
-    getOne(movieId) {
-        const movie = Movie.findById(movieId)
+    async getOne(movieId) {
+        const movie = await Movie.findById(movieId);
         return movie;
     }
 }
