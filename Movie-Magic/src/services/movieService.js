@@ -31,7 +31,7 @@ export default {
         return movie.save();
     },
     getOne(movieId) {
-        const movie = movies.find((m) => m.id === movieId);
+        const movie = Movie.findById(movieId)
         return movie;
     }
 }
