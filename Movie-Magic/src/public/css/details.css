@@ -93,7 +93,8 @@
   margin-top: 2em;
 }
 
-.social-btn > .edit-btn,
+.social-btn > 
+.edit-btn,
 .del-btn {
   color: black;
   font-weight: bold;
@@ -112,6 +113,7 @@
   transition: 200ms ease-in-out;
 }
 
+
 .del-btn {
   background-color: #c6ac8f;
 }
@@ -119,6 +121,7 @@
 .edit-btn {
   background-color: #c6ac8f;
 }
+
 
 .edit-btn:hover,
 .del-btn:hover {
