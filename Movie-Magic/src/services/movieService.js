@@ -2,22 +2,25 @@
 import { v4 as uuid} from "uuid";
 
 import Movie from "../models/Movie.js";
-import Cast from "../models/Cast.js";
+// import Cast from "../models/Cast.js";
 
 
 export default {
     async getAll(filter = {}) {
-        let result = await Movie.find({}).lean();
+        let query = Movie.find()
+        // let result = await Movie.find({}).lean();
         if (filter.search) {
-            result = result.filter(m => m.title.toLowerCase().includes(filter.search.toLowerCase()));
+         query = query.find({title: {$regex: new RegExp(filter.search, 'i')}});
         }
         if(filter.genre) {
-            result=result.filter(m=>m.genre.toLowerCase()===filter.genre.toLowerCase());
+            // result=result.filter(m=>m.genre.toLowerCase()===filter.genre.toLowerCase());
+            query = query.find({genre: filter.genre.toLowerCase()});
         }
         if(filter.year) {
-            result=result.filter(m=>m.year.toString()===filter.year.toString());
+          
+        query = query.where('year').equals (filter.year);
         }
-        return result;
+        return query;
     },
     createMovie(movieData) {
         const movie= new Movie(movieData);
