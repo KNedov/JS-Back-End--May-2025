@@ -16,12 +16,12 @@ const castSchema = new Schema({
         type: String,
         required: [true, 'Born is required'],
     },
-    ImageUrl: {
+    imageUrl: {
         type: String,
         required: [true, 'Image URL is required'],
         validate: [/^https?:\/\//, 'Image URL must be a valid URL'],
     },
-    movie
+    
 });
 
 const Cast = model('Cast', castSchema);
