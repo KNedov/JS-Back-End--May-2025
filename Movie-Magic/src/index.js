@@ -2,7 +2,9 @@ import express from "express";
 import handlebars from "express-handlebars";
 import homeController from "./controllers/homeController.js";
 import movieController from "./controllers/movieControler.js";
+import castController from "./controllers/castController.js";
 import mongoose from "mongoose";
+
 
 //Init express instance
 const app = express();
@@ -50,6 +52,7 @@ app.set("views", "./src/views");
 
 app.use(homeController);
 app.use("/movies", movieController);
+app.use("/casts", castController);
 app.all("*url", (req, res) => {
     res.status(404).render("404");
 });
