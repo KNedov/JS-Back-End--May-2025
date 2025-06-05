@@ -19,10 +19,9 @@ movieController.get('/:movieId/details', async (req, res) => {
   //and pass it to the view
 const movie=await movieService.getOne(movieId)
 
-const casts = await movieService.getCasts(movieId);
+// const casts = await movieService.getCasts(movieId);
 
-
-  res.render('movie/details', { movie, casts });
+  res.render('movie/details', { movie });
 });
 movieController.get('/search', async (req, res) => {
   //Get query from the request
