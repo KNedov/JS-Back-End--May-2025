@@ -27,10 +27,13 @@ const movieSchema = new Schema({
     imageUrl: {
         type:String,
         required: [true,'Image URL is required'],
+        validate: [/^https?:\/\//, 'Image URL must be a valid URL'],
     },
     rating: {
         type:Number,
         required: [true,'Rating is required'],
+        min: [1, 'Rating must be at least 1'],
+        max: [10, 'Rating cannot exceed 10'],
     },
     description: {
         type:String,
