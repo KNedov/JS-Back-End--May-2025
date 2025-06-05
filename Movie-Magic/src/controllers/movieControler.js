@@ -18,7 +18,11 @@ movieController.get('/:movieId/details', async (req, res) => {
   //get movie from movieService
   //and pass it to the view
 const movie=await movieService.getOne(movieId)
-  res.render('movie/details', { movie });
+
+const casts = await movieService.getCasts(movieId);
+
+
+  res.render('movie/details', { movie, casts });
 });
 movieController.get('/search', async (req, res) => {
   //Get query from the request
@@ -49,5 +53,6 @@ movieController.post('/:movieId/attach', async (req, res) => {
 
   res.redirect(`/movies/${movieId}/details`);
 });
+
 
 export default movieController;

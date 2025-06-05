@@ -2,6 +2,7 @@
 import { v4 as uuid} from "uuid";
 
 import Movie from "../models/Movie.js";
+import Cast from "../models/Cast.js";
 
 
 export default {
@@ -36,10 +37,17 @@ export default {
     },
     async attachCast(movieId, castId) {
         const movie = await this.getOne(movieId);
-        console.log(movie);
+      
         
        movie.casts.push(castId);
         return movie.save();
         
+    },
+    async getCasts(movieId) {
+        const movie = await this.getOne(movieId);
+       
+
+        const casts= await Cast.find({_id:{$in:movie.casts}})
+        return casts;
     }
     }
