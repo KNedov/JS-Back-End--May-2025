@@ -1,4 +1,4 @@
-import { create } from "express-handlebars";
+
 import { v4 as uuid} from "uuid";
 
 import Movie from "../models/Movie.js";
@@ -33,5 +33,13 @@ export default {
     async getOne(movieId) {
         const movie = await Movie.findById(movieId);
         return movie;
+    },
+    async attachCast(movieId, castId) {
+        const movie = await this.getOne(movieId);
+        console.log(movie);
+        
+       movie.casts.push(castId);
+        return movie.save();
+        
     }
-}
+    }

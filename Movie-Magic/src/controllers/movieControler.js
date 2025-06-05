@@ -35,11 +35,19 @@ movieController.get('/:movieId/attach', async (req, res) => {
   const movie = await movieService.getOne(movieId);
 
   const casts= await castService.getAll();
-  console.log(casts)
+  
   
 
   res.render('movie/attach', { movie, casts });
 
+});
+movieController.post('/:movieId/attach', async (req, res) => {
+  const movieId = req.params.movieId;
+  const castId = req.body.cast;
+
+  await movieService.attachCast(movieId, castId);
+
+  res.redirect(`/movies/${movieId}/details`);
 });
 
 export default movieController;
