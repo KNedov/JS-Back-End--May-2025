@@ -22,4 +22,14 @@ userController.post('/register',async (req, res) => {
     await userService.register(data);
     res.redirect('/users/login');
 })
+
+userController.get("/login", (req, res) => {
+    res.render('user/login')
+});
+
+userController.post('/login', async (req, res) => {
+    const data = req.body;
+   const token= await userService.login(data);
+    res.redirect('/users/profile');
+})
 export default userController;

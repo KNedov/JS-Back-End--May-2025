@@ -10,7 +10,7 @@ const userSchema = new Schema({
     password:{
         type: String,
         required: [true, 'Password is required'],
-    }
+    },
 })
 
 userSchema.pre('save', async function(){
