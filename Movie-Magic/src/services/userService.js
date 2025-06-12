@@ -9,9 +9,11 @@ export default{
    },
    async login(email,password) {
       // get user from database
-      const user= await User.findOne({ email });
+      const user= await User.findOne( email );
 
       // check if user exists
+  
+      
    if (!user) {
       return new Error('no such user!');
    }

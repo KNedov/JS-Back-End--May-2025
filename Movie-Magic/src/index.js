@@ -5,6 +5,7 @@ import movieController from "./controllers/movieControler.js";
 import castController from "./controllers/castController.js";
 import mongoose from "mongoose";
 import userController from "./controllers/userController.js";
+import cookieParser from "cookie-parser";
 
 
 //Init express instance
@@ -12,6 +13,9 @@ const app = express();
 //Add static middleware
 //This middleware will serve static files from the public directory
 app.use(express.static("./src/public"));
+
+// add cookie parser middleware
+app.use(cookieParser());
 
 //Add body parser middleware
 app.use(express.urlencoded());

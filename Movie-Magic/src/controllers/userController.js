@@ -28,6 +28,9 @@ userController.get("/login", (req, res) => {
 userController.post('/login', async (req, res) => {
     const { email, password } = req.body;
    const token= await userService.login(email,password);
+
+   
+   res.cookie('auth',token)
     res.redirect('/');
 })
 export default userController;
