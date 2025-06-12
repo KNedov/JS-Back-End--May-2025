@@ -71,12 +71,8 @@ input[type=number]::-webkit-outer-spin-button {
 .details-btn {
   margin-left: 20%;
 }
-.attach-btn {
-  margin-left: 20%;
-  margin-top: 30px;
-}
 
-#edit-button,#attach-button, #delete-button {
+#edit-button, #delete-button {
   border: 1px solid black;
   background: #b5838d;
   font-size: 18px;
@@ -89,7 +85,7 @@ input[type=number]::-webkit-outer-spin-button {
   font-weight: bold;
 }
 
-#edit-button:hover,#attach-button:hover, #delete-button:hover {
+#edit-button:hover, #delete-button:hover {
   background: rgba(20, 20, 20, 0.8);
   padding: 10px 80px;
 }
