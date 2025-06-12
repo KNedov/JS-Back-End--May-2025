@@ -1,5 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import jsonwebtoken from "jsonwebtoken";
+const jwtSecret = '1234fgsklhj2143gvjzdfghjxd'
 
 export default{
    register(data) {
@@ -16,10 +18,22 @@ export default{
 
 
    // validate password
+   const isValid = await bcrypt.compare(password, user.password);
 
    // return error if not valid
+   if (!isValid) {
+      return new Error('Invalid password!');
+   }
 
    // if valid generate token
 
-   // return token
-}}
+   const payload = {
+      _id: user._id,
+      email: user.email
+   };
+   const token = jsonwebtoken.sign(payload, jwtSecret, { expiresIn: '2h' });
+console.log(token);
+
+   return token;
+   },
+}
