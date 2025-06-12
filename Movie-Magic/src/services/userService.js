@@ -1,7 +1,7 @@
-import User from "../models/User";
+import User from "../models/User.js";
 
 export default{
-   register(email, password) {
-    return User.create({ email, password });
+   register(data) {
+    return User.create(data);
    }
 }
