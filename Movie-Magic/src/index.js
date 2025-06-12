@@ -6,6 +6,7 @@ import castController from "./controllers/castController.js";
 import mongoose from "mongoose";
 import userController from "./controllers/userController.js";
 import cookieParser from "cookie-parser";
+import { auth } from "./controllers/middlewares/authMiddlewares.js";
 
 
 //Init express instance
@@ -19,6 +20,8 @@ app.use(cookieParser());
 
 //Add body parser middleware
 app.use(express.urlencoded());
+// add auth middleware
+ app.use(auth)
 //Add and config view engine
 app.engine(
     "hbs",
