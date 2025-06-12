@@ -9,17 +9,15 @@ userController.get("/register", (req, res) => {
 });
 
 userController.post('/register',async (req, res) => {
-    const data = req.body;
-  
-    
-   
-    // if (!email || !password || !rePassword) {
-    //     return res.status(400).render('user/register', { error: 'All fields are required.' });
-    // }
-    // if (password !== rePassword) {
-    //     return res.status(400).render('user/register', { error: 'Passwords do not match.' });
-    // }
-    await userService.register(data);
+    const {email,password,rePassword} = req.body;
+
+    if (!email || !password || !rePassword) {
+        return res.status(400).render('user/register', { error: 'All fields are required.' });
+    }
+    if (password !== rePassword) {
+        return res.status(400).render('user/register', { error: 'Passwords do not match.' });
+    }
+    await userService.register({email,password,rePassword});
     res.redirect('/users/login');
 })
 
@@ -28,8 +26,8 @@ userController.get("/login", (req, res) => {
 });
 
 userController.post('/login', async (req, res) => {
-    const data = req.body;
-   const token= await userService.login(data);
+    const { email, password } = req.body;
+   const token= await userService.login(email,password);
     res.redirect('/users/profile');
 })
 export default userController;

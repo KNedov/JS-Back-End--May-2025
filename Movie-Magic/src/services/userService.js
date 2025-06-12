@@ -1,14 +1,19 @@
 import User from "../models/User.js";
+import bcrypt from "bcrypt";
 
 export default{
    register(data) {
     return User.create(data);
-   }
-   ,
-   login(loginData) {
-   // get user from database
+   },
+   async login(email,password) {
+      // get user from database
+      const user= await User.findOne({ email });
 
-   // check if user exists
+      // check if user exists
+   if (!user) {
+      return new Error('no such user!');
+   }
+
 
    // validate password
 
