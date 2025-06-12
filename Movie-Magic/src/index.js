@@ -1,12 +1,9 @@
 import express from "express";
 import handlebars from "express-handlebars";
-import homeController from "./controllers/homeController.js";
-import movieController from "./controllers/movieControler.js";
-import castController from "./controllers/castController.js";
 import mongoose from "mongoose";
-import userController from "./controllers/userController.js";
 import cookieParser from "cookie-parser";
 import { auth } from "./controllers/middlewares/authMiddlewares.js";
+import routes from "./routes.js";
 
 
 //Init express instance
@@ -58,13 +55,10 @@ app.set("view engine", "hbs");
 //Set views directory
 app.set("views", "./src/views");
 
-app.use(homeController);
-app.use("/movies", movieController);
-app.use("/casts", castController);
-app.use ("/users",userController)
-app.all("*url", (req, res) => {
-    res.status(404).render("404");
-});
+//Import routes
+app.use(routes)
+
+
 
 //Start express web server
 app.listen(5000, () => {
