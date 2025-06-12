@@ -5,6 +5,7 @@ import movieController from "./controllers/movieController.js";
 import castController from "./controllers/castController.js";
 import userController from "./controllers/userController.js";
 
+
 const routes= Router();
 routes.use(homeController);
 routes.use("/movies", movieController);

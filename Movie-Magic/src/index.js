@@ -2,7 +2,7 @@ import express from "express";
 import handlebars from "express-handlebars";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
-import { auth } from "./controllers/middlewares/authMiddlewares.js";
+import { auth } from "./middlewares/authMiddlewares.js";
 import routes from "./routes.js";
 
 
