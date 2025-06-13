@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
+import {jwtSecret}  from "../config/general.js";
 
 
 export default{
@@ -30,11 +31,11 @@ export default{
    // if valid generate token
 
    const payload = {
-      _id: user._id,
+      id: user.id,
       email: user.email
    };
    const token = jsonwebtoken.sign(payload, jwtSecret, { expiresIn: '2h' });
-console.log(token);
+
 
    return token;
    },

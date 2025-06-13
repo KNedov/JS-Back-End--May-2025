@@ -22,11 +22,12 @@ export default {
         }
         return query;
     },
-    createMovie(movieData) {
+    createMovie(movieData,userId) {
         const movie= new Movie(movieData);
-        //Generate unique id
+        movie.owner = userId;
+
+        //set owner
         
-        movieData.id = uuid();
         //convert rating to number
         movieData.rating = Number(movieData.rating);
         //convert year to number
