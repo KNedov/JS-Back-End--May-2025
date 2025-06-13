@@ -9,7 +9,7 @@ movieController.get ('/create', (req, res) => {
 movieController.post('/create',async (req, res) => {
   const newMovie = req.body;
   const userId = req.user.id;
-  console.log(userId);
+
   
   await movieService.createMovie(newMovie, userId);
 
@@ -18,13 +18,14 @@ movieController.post('/create',async (req, res) => {
 movieController.get('/:movieId/details', async (req, res) => {
   //get movieId from parameters
   const movieId = req.params.movieId;
-  //get movie from movieService
-  //and pass it to the view
-const movie=await movieService.getOne(movieId)
+  const userId = req.user?.id;
+
+const movie=await movieService.getOne(movieId);
+  const isOwner = movie.owner?.equals(userId);
 
 // const casts = await movieService.getCasts(movieId);
 
-  res.render('movie/details', { movie });
+  res.render('movie/details', { movie,isOwner });
 });
 movieController.get('/search', async (req, res) => {
   //Get query from the request

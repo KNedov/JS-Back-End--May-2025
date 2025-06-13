@@ -1,5 +1,6 @@
 <section id="details-page">
     <div class="main_card">
+        {{#if isOwner}}
         <div class="card_left">
             <div class="card_datails">
 
@@ -35,6 +36,7 @@
             </div>
            
         </div>
+        {{/if}}
         <div class="card_right">
             <img src="{{movie.imageUrl}}" alt="{{movie.title}}" />
         </div>
