@@ -49,6 +49,20 @@ export default {
         return Movie.findByIdAndDelete(movieId);
         await Movie.delete(movieId);
     },
+    async editMovie(movieId, movieData) {
+        const movie = await this.getOne(movieId);
+
+        movie.title = movieData.title;
+        movie.category = movieData.category;
+        movie.genre = movieData.genre;
+        movie.director = movieData.director;
+        movie.year = Number(movieData.year);
+        movie.imageUrl = movieData.imageUrl;
+        movie.rating = Number(movieData.rating);
+        movie.description = movieData.description;
+
+        return movie.save();
+    }
     // async getCasts(movieId) {
     //     const movie = await this.getOne(movieId);
 
