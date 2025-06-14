@@ -33,4 +33,10 @@ userController.post('/login', async (req, res) => {
    res.cookie('auth',token)
     res.redirect('/');
 })
+userController.get('/logout', (req, res) => {
+    res.clearCookie('auth');
+    //Todo invalidate the token in the service layer
+
+    res.redirect('/');
+})
 export default userController;
