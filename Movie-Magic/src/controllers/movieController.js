@@ -25,7 +25,7 @@ movieController.get("/:movieId/details", async (req, res) => {
 
     // const casts = await movieService.getCasts(movieId);
 
-    res.render("movie/details", { movie, isOwner });
+    res.render("movie/details", { movie, isOwner,pageTitle:'Details' });
 });
 movieController.get("/search", async (req, res) => {
     //Get query from the request
@@ -42,7 +42,7 @@ movieController.get("/:movieId/attach", async (req, res) => {
 
     const casts = await castService.getAll({ exclude: movie.casts });
 
-    res.render("movie/attach", { movie, casts });
+    res.render("movie/attach", { movie, casts,pageTitle: "Attach"});
 });
 movieController.post("/:movieId/attach", async (req, res) => {
     const movieId = req.params.movieId;
@@ -71,7 +71,7 @@ movieController.get("/:movieId/edit", async (req, res) => {
         return res.status(403).end();
     }
     const categoryData = getCategoryViewData(movie.category);
-    res.render("movie/edit", { movie, categoryOptions: categoryData });
+    res.render("movie/edit", { movie, categoryOptions: categoryData,pageTitle:'Edit' });
 });
 movieController.post("/:movieId/edit", async (req, res) => {
     const movieId = req.params.movieId;
