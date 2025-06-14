@@ -50,19 +50,7 @@ export default {
         await Movie.delete(movieId);
     },
     async editMovie(movieId, movieData) {
-        const movie = await this.getOne(movieId);
-
-        movie.title = movieData.title;
-        movie.category = movieData.category;
-        movie.genre = movieData.genre;
-        movie.director = movieData.director;
-        movie.year = Number(movieData.year);
-        movie.imageUrl = movieData.imageUrl;
-        movie.rating = Number(movieData.rating);
-        movie.description = movieData.description;
-
-        return movie.save();
-    }
+       return Movie.findByIdAndUpdate(movieId, movieData)}
     // async getCasts(movieId) {
     //     const movie = await this.getOne(movieId);
 
@@ -70,3 +58,4 @@ export default {
     //     return casts;
     // }
 };
+    
