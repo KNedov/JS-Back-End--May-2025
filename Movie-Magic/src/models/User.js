@@ -7,15 +7,9 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'Email is required'],
         unique: true,
-        // validate: {
-        //     validator: async function(value) {
-        //         const existingUser = await User.findOne({ email: value });
-        //         if (existingUser) {
-        //             throw new Error('Email already exists');
-        //         }
-        //     },
-           
-        // }
+        minLength: [10, 'Email must be at least 10 characters long'],
+        validate: [/@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/, 'Please enter a valid email address'],
+       
 
     },
     password:{
