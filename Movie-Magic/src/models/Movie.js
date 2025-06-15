@@ -1,11 +1,16 @@
 import {Schema,Types,model} from "mongoose";
+import { validate } from "uuid";
 
 
 const maxYearAllowed = new Date().getFullYear() + 5;
+const validCharacterPattern = /^[a-zA-Z0-9]+$/;
 const movieSchema = new Schema({
     title:{
         type:String,
         required: [true,'Title is required'],
+        validate: [validCharacterPattern, 'Title can only contain alphanumeric characters,digits and whitespace are allowed'],
+        minlength: [5, 'Title must be at least 5 characters long'],
+
     },
     category:{
         type:String,
@@ -15,15 +20,19 @@ const movieSchema = new Schema({
         type:String,
         required: [true,'Genre is required'],
         lowercase: true,
+        validate: [validCharacterPattern, 'Genre can only contain alphanumeric characters,digits and whitespace are allowed'],
+        minlength: [5, 'Genre must be at least 5 characters long'],
     },
     director: {
         type:String,
         required: [true,'Director is required'],
+        validate: [validCharacterPattern, 'Director can only contain alphanumeric characters,digits and whitespace are allowed'],
+        minlength: [5, 'Director must be at least 5 characters long'],
     },
     year: {
         type:Number,
         required: [true,'Year is required'],
-        min:1970,
+        min:[1900,'Movie year must be at least 1900'],
         max:[maxYearAllowed, `Year cant be greater than ${maxYearAllowed}`],
     },
     imageUrl: {
@@ -42,6 +51,7 @@ const movieSchema = new Schema({
         required: [true,'Description is required'],
         minlength: [10, 'Description must be at least 10 characters long'],
         maxlength: [1000, 'Description cannot exceed 1000 characters'],
+        validate: [validCharacterPattern, 'Description can only contain alphanumeric characters,digits and whitespace are allowed'],
     },
     casts: [{
         type:Types.ObjectId,
