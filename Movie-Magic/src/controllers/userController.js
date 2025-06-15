@@ -1,54 +1,61 @@
-import { Router } from "express";
-import userService from "../services/userService.js";
+import { Router } from 'express'
+import userService from '../services/userService.js';
+import { getErrorMessage } from '../utils/errorUtils.js';
 
 const userController = Router();
 
-//TODO: Implement user-related routes
-userController.get("/register", (req, res) => {
-    res.render("user/register");
+userController.get('/register', (req, res) => {
+    res.render('user/register');
 });
 
-userController.post("/register", async (req, res) => {
+userController.post('/register', async (req, res) => {
+    // Get Data from request
     const { email, password, rePassword } = req.body;
 
+    // Register user
     try {
-        const token = await userService.register({
-            email,
-            password,
-            rePassword,
-        });
-        res.cookie("auth", token);
-        res.redirect("/");
-    } catch (error) {
-        res.render("user/register", {
-            error: error.message,
-            email
-        });
-    }
-});
+        const token = await userService.register({ email, password, rePassword });
 
-userController.get("/login", (req, res) => {
-    res.render("user/login");
-});
+        // Set auth cookie
+        res.cookie('auth', token);
 
-userController.post("/login", async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        const token = await userService.login(email, password);
-        res.cookie("auth", token);
-        res.redirect("/");
+        // Redirect to login
+        res.redirect('/');
     } catch (err) {
-        res.render("user/login", {
-            error: err.message,
-            email
-        });
-        
+        res.render('user/register', { error: getErrorMessage(err), email });
     }
 });
-userController.get("/logout", (req, res) => {
-    res.clearCookie("auth");
-    //Todo invalidate the token in the service layer
 
-    res.redirect("/");
+userController.get('/login', (req, res) => {
+    res.render('user/login');
 });
+
+userController.post('/login', async (req, res) => {
+    // Get login data
+    const { email, password } = req.body;
+
+    try {
+        // call service login
+        const token = await userService.login(email, password);
+
+        // Set auth cookie
+        res.cookie('auth', token);
+
+        // redirect to home
+        res.redirect('/');
+    } catch (err) {
+        res.render('user/login', { error: err.message, email });
+    }
+
+});
+
+userController.get('/logout', (req, res) => {
+    res.clearCookie('auth');
+
+    // TODO: Invalidate token
+
+    res.redirect('/');
+});
+
 export default userController;
+

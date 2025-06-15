@@ -1,87 +1,149 @@
-import express from "express";
-import movieService from "../services/movieService.js";
-import castService from "../services/castService.js";
-import { getCategoryViewData } from "../utils/movieUtils.js";
-import { isAuth } from "../middlewares/authMiddlewares.js";
+import express from 'express'
+import movieService from '../services/movieService.js';
+import castService from '../services/castService.js';
+import { getCategoryOptionsViewData } from '../utils/movieUtils.js';
+import { isAuth } from '../middlewares/authMiddleware.js';
+import { getErrorMessage } from '../utils/errorUtils.js';
 
 const movieController = express.Router();
-movieController.get("/create",isAuth, (req, res) => {
-    res.render("create");
+
+movieController.get('/create', isAuth, (req, res) => {
+    res.render('movie/create');
 });
-movieController.post("/create", isAuth, async (req, res) => {
-    const newMovie = req.body;
+
+movieController.post('/create', isAuth, async (req, res) => {
+    // Get current userId
     const userId = req.user.id;
 
-    await movieService.createMovie(newMovie, userId);
+    // Get movie data
+    const newMovie = req.body;
 
-    res.redirect("/");
+    try {
+        // Save Movie
+        await movieService.create(newMovie, userId);
+
+        // Redirect to home page
+        res.redirect('/');
+    } catch (err) {
+        // Prepare view data
+        const categoryOptionsViewData = getCategoryOptionsViewData(newMovie.category);
+
+        res.render('movie/create', {
+            error: getErrorMessage(err),
+            movie: newMovie,
+            categoryOptions: categoryOptionsViewData,
+        });
+    }
 });
-movieController.get("/:movieId/details", async (req, res) => {
-    //get movieId from parameters
+
+movieController.get('/:movieId/details', async (req, res) => {
+    // Get movie id from params
     const movieId = req.params.movieId;
+
+    // Get current user
     const userId = req.user?.id;
 
+    // Get movie data with populated casts
     const movie = await movieService.getOne(movieId);
+
+    // Verify if user is owner
     const isOwner = movie.owner?.equals(userId);
 
-    // const casts = await movieService.getCasts(movieId);
-
-    res.render("movie/details", { movie, isOwner,pageTitle:'Details' });
+    res.render('movie/details', { movie, isOwner, pageTitle: 'Details' });
 });
-movieController.get("/search", async (req, res) => {
-    //Get query from the request
+
+movieController.get('/search', async (req, res) => {
+    // Get querystring
     const filter = req.query;
 
+    // Get all movies
     const movies = await movieService.getAll(filter);
-    res.render("search", { movies, filter });
+
+    res.render('search', { movies, filter });
 });
 
-movieController.get("/:movieId/attach",isAuth, async (req, res) => {
+movieController.get('/:movieId/attach', isAuth, async (req, res) => {
     const movieId = req.params.movieId;
 
+    // Get movie by id
     const movie = await movieService.getOne(movieId);
 
+    // get all casts
     const casts = await castService.getAll({ exclude: movie.casts });
 
-    res.render("movie/attach", { movie, casts,pageTitle: "Attach"});
+    // Pass casts to template
+    res.render('movie/attach', { movie, casts, pageTitle: 'Attach' });
 });
-movieController.post("/:movieId/attach",isAuth, async (req, res) => {
+
+movieController.post('/:movieId/attach', isAuth, async (req, res) => {
+    // Get movie id
     const movieId = req.params.movieId;
+
+    // Get cast id
     const castId = req.body.cast;
 
-    await movieService.attachCast(movieId, castId);
+    // Attach cast to movie
+    await movieService.attach(movieId, castId);
 
+    // Redirect to movie details page
     res.redirect(`/movies/${movieId}/details`);
 });
-movieController.get("/:movieId/delete",isAuth, async (req, res) => {
+
+movieController.get('/:movieId/delete', isAuth, async (req, res) => {
+    // Get movie Id
     const movieId = req.params.movieId;
 
-    await movieService.deleteMovie(movieId);
+    // call service
+    await movieService.delete(movieId);
 
-    res.redirect("/");
+    // return redirect
+    res.redirect('/');
 });
 
-
-movieController.get("/:movieId/edit",isAuth, async (req, res) => {
+movieController.get('/:movieId/edit', isAuth, async (req, res) => {
+    // Get movie id
     const movieId = req.params.movieId;
 
+    // Get movie by id
     const movie = await movieService.getOne(movieId);
 
-    const isOwner = movie.owner?.equals(req.user.id);
-    if (!isOwner) {
-        return res.status(403).end();
-    }
-    const categoryData = getCategoryViewData(movie.category);
-    res.render("movie/edit", { movie, categoryOptions: categoryData,pageTitle:'Edit' });
-});
-movieController.post("/:movieId/edit",isAuth, async (req, res) => {
-    const movieId = req.params.movieId;
+    // Get userId
     const userId = req.user?.id;
 
-    const updatedMovie = req.body;
+    // check if owner
+    const isOwner = movie.owner?.equals(userId);
 
-    await movieService.editMovie(movieId, updatedMovie);
+    if (!isOwner) {
+        // return res.render('404', { error: 'You don\' have access to edit this movie' });
+        return res.dataRedirect('/404', { error: 'You don\' have access to edit this movie' });
+    }
 
+    // Prepare view data
+    const categoryOptionsViewData = getCategoryOptionsViewData(movie.category);
+
+    // Pass movie data to template    
+    res.render('movie/edit', {
+        movie,
+        categoryOptions: categoryOptionsViewData,
+        pageTitle: 'Edit'
+    });
+});
+
+movieController.post('/:movieId/edit', isAuth, async (req, res) => {
+    // Get movie id
+    const movieId = req.params.movieId;
+
+    // Get updated movie data
+    const movieData = req.body;
+
+    // Get userId
+    // const userId = req.user?.id;
+    // TODO: Check if owner
+
+    // Update movie
+    await movieService.update(movieId, movieData);
+
+    // Redirect to movie details page
     res.redirect(`/movies/${movieId}/details`);
 });
 

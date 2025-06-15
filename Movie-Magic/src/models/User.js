@@ -1,38 +1,52 @@
-import { Schema,model } from "mongoose";  
+import { Schema, model } from "mongoose";
 import bcrypt from 'bcrypt';
-import { validate } from "uuid";
 
 const userSchema = new Schema({
-    email:{
+    email: {
         type: String,
-        required: [true, 'Email is required'],
-        unique: true,
-        minLength: [10, 'Email must be at least 10 characters long'],
-        validate: [/@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/, 'Please enter a valid email address'],
-       
+        required: [true, 'User Email is required!'],
+        unique: true, // Not a validator but db index // DB Validation not a model validation
+        minLength: [10, 'Email should be at least 10 characters long!'],
+        validate: [/@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/, 'Invalid Email Format!']
+        // Cusrtom schema validator
+        // validate: {
+        //     validator: async function (value) {
+        //         const existingUser = await User.findOne({ email: value })
 
+        //         return !existingUser;
+        //     },
+        //     message: 'User already exists!',
+        // }
     },
-    password:{
+    password: {
         type: String,
-        required: [true, 'Password is required'],
-        minLength: [6, 'Password must be at least 6 characters long'],
-        validate: [/^[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/, 'Invalid password format'],
+        required: [true, 'Please provide password!'],
+        validate: [/^[a-zA-Z0-9]+$/, 'Password should be alphanumeric'],
+        minLength: [6, 'Password should be at least 6 characters long!'],
     },
-})
+});
 
+// Validate if user email is unique with custom validator
+// userSchema.path('email').validate(async function (value) {
+//     const existingUser = await User.findOne({ email: value })
 
-userSchema.pre('save', async function(){
+//     if (existingUser) {
+//         throw new Error('User already exists!');
+//     }
+// });
 
-this.password= await bcrypt.hash(this.password, 10);
-})
-// validate rePassword
+userSchema.pre('save', async function () {
+    this.password = await bcrypt.hash(this.password, 10);
+});
+
+// Validate rePassword using virtual setter
 userSchema.virtual('rePassword')
-.set(function(value) {
-    if (this.password !== value) {
-        throw new Error('Passwords do not match');
-    }
-})
-
+    .set(function(value) {
+        if (this.password !== value) {
+            throw new Error('Password Missmatch!');
+        }
+    });
 
 const User = model('User', userSchema);
+
 export default User;

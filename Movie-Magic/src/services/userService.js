@@ -1,43 +1,41 @@
-import User from "../models/User.js";
-import bcrypt from "bcrypt";
-import {generateAuthToken} from "../utils/authUtils.js";
+import bcrypt from 'bcrypt'
 
-export default{
-   async register(data) {
-      const existingUser= await User.findOne({ email: data.email });
-      // check if user already exists
-      if (existingUser) {
-         throw new Error("User already exists!");
-      }
-    const user= await User.create(data);
-    const token = generateAuthToken(user);
-    return token;
-   },
-   async login(email,password) {
-      // get user from database
-      console.log(email);
-      
-      const user= await User.findOne( {email} );
+import User from "../models/User.js"
+import { generateAuthToken } from '../utils/authUtils.js';
 
-      // check if user exists
-  
-      
-   if (!user) {
-      throw new Error('no such user!');
-   }
+export default {
+    async register(userData) {
+        const existingUser = await User.findOne({ email: userData.email })
+        if (existingUser) {
+            throw new Error('User already exists');
+        }
+        const user = await User.create(userData);
 
+        const token = generateAuthToken(user);
 
-   // validate password
-   const isValid = await bcrypt.compare(password, user.password);
+        return token;
+    },
+    async login(email, password) {
+        // Get user from database
+        const user = await User.findOne({ email });
 
-   // return error if not valid
-   if (!isValid) {
-      throw new Error('Invalid password!');
-   }
+        // Check if user exists
+        if (!user) {
+            throw new Error('No such user!');
+        }
 
-   // if valid generate token
+        // Validate password
+        const isValid = await bcrypt.compare(password, user.password);
 
-  const token= generateAuthToken(user);
-   return token;
-   },
+        // Return error if not valid
+        if (!isValid) {
+            throw new Error('Invalid password');
+        }
+
+        // If valid generate token
+        const token = generateAuthToken(user);
+
+        // Return token
+        return token;
+    },
 }

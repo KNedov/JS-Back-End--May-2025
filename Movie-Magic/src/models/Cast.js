@@ -1,32 +1,33 @@
-import { Schema,model } from "mongoose";
+import { Schema, model } from 'mongoose'
 
-const validCharacterPattern = /^[a-zA-Z0-9]+$/;
+const validCharactersPattern = /^[a-zA-Z0-9 ]+$/;
+
 const castSchema = new Schema({
     name: {
         type: String,
-        required: [true, 'Name is required'],
-        validate: [validCharacterPattern, 'Name can only contain alphanumeric characters, digits and whitespace are allowed'],
-        minlength: [5, 'Name must be at least 5 characters long'],
+        required: true,
+        validate: [validCharactersPattern, 'Only engilsh letters, digits and whitespace are allowed!'],
+        minLengh: [5, 'Name should be at least 5 characters long'],
     },
-    age:{
+    age: {
         type: Number,
-        required: [true, 'Age is required'],
-        min: [1, 'Age must be at least 1'],
-        max: [120, 'Age cannot exceed 120'],
+        required: true,
+        min: [1, 'Age should be at least 1 years old'],
+        max: [120, 'Age should be less than 120 years old'],
     },
-    born: {
+    born: { 
         type: String,
-        required: [true, 'Born is required'],
-        validate: [validCharacterPattern, 'Born can only contain alphanumeric characters, digits and whitespace are allowed'],
-        minlength: [10, 'Born must be at least 10 characters long'],
+        required: true,
+        validate: [validCharactersPattern, 'Only engilsh letters, digits and whitespace are allowed!'],
+        minLengh: [10, 'Born should be at least 5 characters long'],
     },
     imageUrl: {
         type: String,
-        required: [true, 'Image URL is required'],
-        validate: [/^https?:\/\//, 'Image URL must be a valid URL'],
-    },
-    
+        validate: [/^https?:\/\//, 'Invalid Image URL!'],
+        required: true,
+    }
 });
 
 const Cast = model('Cast', castSchema);
+
 export default Cast;
