@@ -1,48 +1,49 @@
-<!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Movie Magic {{#if pageTitle}} | {{pageTitle}}{{/if}}</title>
-    <!-- Do not forget to change the path to the css file -->
-    <link href="/css/style.css" type="text/css" rel="stylesheet">
-</head>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Movie Magic {{#if pageTitle}} | {{pageTitle}}{{/if}}</title>
+        <!-- Do not forget to change the path to the css file -->
+        <link href="/css/style.css" type="text/css" rel="stylesheet" />
+    </head>
 
-<body>
+    <body>
 
-    <div id="box">
+        <div id="box">
+            <div class="error-container">{{#if error}}<p
+                    >{{error}}</p>{{/if}}</div>
 
-        <nav>
-            <img src="/img/logo.webp" alt="logo">
+            <nav>
+                <img src="/img/logo.webp" alt="logo" />
 
-            <ul class="menu">
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/movies/search">Search</a></li>
-                <!--Users-->
-                {{#if user}}
-                <li><a href="/movies/create">Create Movie</a></li>
-                <li><a href="/casts/create">Create Cast</a></li>
-                <li><a href="/users/logout">Logout</a></li>
-                <span  style="color: rgb(14, 10, 10);"> "{{user.email}}"</span>
-                {{else}}
-                <!--Guest-->
-                <li><a href="/users/login">Login</a></li>
-                <li><a href="/users/register">Register</a></li>
-                {{/if}}
-            </ul>
+                <ul class="menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/movies/search">Search</a></li>
+                    <!--Users-->
+                    {{#if user}}
+                        <li><a href="/movies/create">Create Movie</a></li>
+                        <li><a href="/casts/create">Create Cast</a></li>
+                        <li><a href="/users/logout">Logout</a></li>
+                        <span style="color: rgb(14, 10, 10);">
+                            "{{user.email}}"</span>
+                    {{else}}
+                        <!--Guest-->
+                        <li><a href="/users/login">Login</a></li>
+                        <li><a href="/users/register">Register</a></li>
+                    {{/if}}
+                </ul>
 
-        </nav>
+            </nav>
 
+            <main>
+                {{{body}}}
+            </main>
+            <footer>
+                © JS Back-End Workshop
+            </footer>
+        </div>
 
-        <main>
-            {{{body}}}
-        </main>
-        <footer>
-            © JS Back-End Workshop
-        </footer>
-    </div>
-
-</body>
+    </body>
 
 </html>

@@ -11,9 +11,20 @@ userController.get("/register", (req, res) => {
 userController.post("/register", async (req, res) => {
     const { email, password, rePassword } = req.body;
 
-    const token = await userService.register({ email, password, rePassword });
-    res.cookie("auth", token);
-    res.redirect("/");
+    try {
+        const token = await userService.register({
+            email,
+            password,
+            rePassword,
+        });
+        res.cookie("auth", token);
+        res.redirect("/");
+    } catch (error) {
+        res.render("user/register", {
+            error: error.message,
+            
+        });
+    }
 });
 
 userController.get("/login", (req, res) => {
