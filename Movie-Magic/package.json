@@ -9,16 +9,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ivailopapazov/movie-magic-may-2025.git"
+    "url": "git+https://github.com/KNedov/JS-Back-End--May-2025.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/ivailopapazov/movie-magic-may-2025/issues"
+    "url": "https://github.com/KNedov/JS-Back-End--May-2025/issues"
   },
-  "homepage": "https://github.com/ivailopapazov/movie-magic-may-2025#readme",
+  "homepage": "https://github.com/KNedov/JS-Back-End--May-2025#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
@@ -28,5 +28,6 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.1",
     "uuid": "^11.1.0"
+    
   }
 }
