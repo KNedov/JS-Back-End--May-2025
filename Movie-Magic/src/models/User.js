@@ -15,6 +15,8 @@ const userSchema = new Schema({
     password:{
         type: String,
         required: [true, 'Password is required'],
+        minLength: [6, 'Password must be at least 6 characters long'],
+        validate: [/^[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/, 'Invalid password format'],
     },
 })
 
