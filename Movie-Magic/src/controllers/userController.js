@@ -22,7 +22,7 @@ userController.post("/register", async (req, res) => {
     } catch (error) {
         res.render("user/register", {
             error: error.message,
-            
+            email
         });
     }
 });
