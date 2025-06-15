@@ -15,13 +15,15 @@ export default{
    },
    async login(email,password) {
       // get user from database
-      const user= await User.findOne( email );
+      console.log(email);
+      
+      const user= await User.findOne( {email} );
 
       // check if user exists
   
       
    if (!user) {
-      return new Error('no such user!');
+      throw new Error('no such user!');
    }
 
 
@@ -30,7 +32,7 @@ export default{
 
    // return error if not valid
    if (!isValid) {
-      return new Error('Invalid password!');
+      throw new Error('Invalid password!');
    }
 
    // if valid generate token
