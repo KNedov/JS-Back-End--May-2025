@@ -25,6 +25,14 @@ userSchema.pre('save', async function(){
 
 this.password= await bcrypt.hash(this.password, 10);
 })
+// validate rePassword
+userSchema.virtual('rePassword')
+.set(function(value) {
+    if (this.password !== value) {
+        throw new Error('Passwords do not match');
+    }
+})
+
 
 const User = model('User', userSchema);
 export default User;

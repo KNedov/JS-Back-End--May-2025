@@ -11,16 +11,6 @@ userController.get("/register", (req, res) => {
 userController.post("/register", async (req, res) => {
     const { email, password, rePassword } = req.body;
 
-    if (!email || !password || !rePassword) {
-        return res
-            .status(400)
-            .render("user/register", { error: "All fields are required." });
-    }
-    if (password !== rePassword) {
-        return res
-            .status(400)
-            .render("user/register", { error: "Passwords do not match." });
-    }
     const token = await userService.register({ email, password, rePassword });
     res.cookie("auth", token);
     res.redirect("/");
