@@ -1,0 +1,20 @@
+
+{{setTitle 'Catalog Page'}}
+    <section class="catalog-hero">
+        <div class="container">
+            <h2>Product Catalog</h2>
+            <p>Explore our extensive range of laptops, desktops, and accessories.</p>
+        </div>
+    </section>
+
+    <section class="catalog">
+        <div class="container">
+             {{#each products}}
+            {{> catalog-card}}
+            {{else}}
+            <p class="no-post">There are no devices post yet!</p>
+            {{/each}}
+        </div>
+    </section>
+
+   

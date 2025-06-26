@@ -1,0 +1,46 @@
+{{setTitle 'Details Page'}}
+
+    <section class="details-hero">
+        <div class="container">
+            <h2>Laptop Details</h2>
+        </div>
+    </section>
+
+    <section class="details-content">
+        <div class="container">
+            <div class="product-details">
+                <div class="product-image">
+                    <img src="{{product.image}}" alt="Laptop">
+                </div>
+                <div class="product-info">
+                    <h3>Brand: {{product.brand}}</h3>
+                    <p><strong>Model:</strong> {{product.model}}</p>
+                    <p><strong>Hard Disk:</strong> {{product.hardDisk}}</p>
+                    <p><strong>Screen Size:</strong> {{product.screenSize}}</p>
+                    <p><strong>RAM:</strong> {{product.ram}}</p>
+                    <p><strong>Operating System:</strong> {{product.operatingSystem}}</p>
+                    <p><strong>CPU:</strong> {{product.cpu}}</p>
+                    <p><strong>GPU:</strong> {{product.gpu}}</p>
+                    <p><strong>Price:</strong> ${{product.price}}</p>
+                    <p><strong>Color:</strong> {{product.color}}</p>
+                    <p><strong>Weight:</strong> {{product.weight}}</p>
+                </div>
+            </div>
+            {{#if isAuthenticated}}
+            <div class="product-actions">
+                {{#if isOwner}}
+                <button class="btn edit"><a href="/products/{{product.id}}/edit">Edit</a></button>
+                <button class="btn delete"><a href="/products/{{product.id}}/delete">Delete</a></button>
+                {{else}}
+                    {{#if isPreferred}}
+                     <p class="prefer-message">You've already preferred this device</p>
+                     {{else}}
+                    <button class="btn prefer"><a href="/products/{{product.id}}/prefer">Prefer</a></button>
+                    {{/if}}
+                 {{/if}}
+            </div>
+            {{/if}}
+        </div>
+    </section>
+
+  

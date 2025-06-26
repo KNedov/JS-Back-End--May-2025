@@ -1,0 +1,31 @@
+
+
+{{setTitle "Posts Page"}}
+        <main>
+
+            <section id="catalog">
+                <h1>All posts</h1>
+                <div class="wrap">
+                    {{#if cars}}
+                    {{#each cars}}
+                    <div class="car-card car-card-info">
+                        <div class="front">
+                            <img src="{{image}}"
+                                alt="{{model}}">
+                        </div>
+                        <div class="back">
+                            <h1>{{model}}</h1>
+                            <h2>Top Speed: {{topSpeed}}</h2>
+                            <p>Description: {{description}}</p>
+                            <a href="/cars/{{id}}/details" class="details">Details</a>
+                        </div>
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    <div class="no-posts">
+                        <p class="no-cars">There are no car posts yet...</p>
+                    </div>
+                    {{/if}}
+                </div>
+            </section>
+       

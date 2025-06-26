@@ -1,0 +1,21 @@
+{{setTitle "My Posts "}}
+            <section id="my-posts">
+    <h1>My Cars Posts</h1>
+
+    <div class="my-container">
+        {{#if created}}
+        {{#each created}}
+         {{>myPost-card}}
+        {{/each}}
+       
+        {{else}}
+            
+                   <div class="no-posts">
+                        <p class="no-cars">There are no own posts yet....</p>
+                    </div> 
+    </div>
+        {{/if}}
+</section>
+
+
+       
